@@ -1,4 +1,0 @@
-{
-  "buildCommand": "prisma generate --schema=prisma/schema.production.prisma && prisma db push --schema=prisma/schema.production.prisma --skip-generate && next build",
-  "installCommand": "npm install"
-}

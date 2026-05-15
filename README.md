@@ -1,27 +1,25 @@
 # OneFrame — site-bright
 
-Next.js 14 + Prisma site. Local dev uses SQLite; production (Vercel) uses PostgreSQL (Neon).
+Next.js 14 static site hosted on GitHub Pages.
+
+Live: https://yydds6054-cyber.github.io/OneFrame_website/
 
 ## Local development
 
 ```bash
 npm install
-npx prisma migrate dev    # uses prisma/schema.prisma (SQLite)
-npm run dev               # http://localhost:3001
+npm run dev    # http://localhost:3001
 ```
 
-The `.env` file points `DATABASE_URL` at `file:./dev.db`.
+## Contact form
 
-## Production deployment (Vercel + Neon)
+The form posts to [Formspree](https://formspree.io). Configure the endpoint via the `NEXT_PUBLIC_FORMSPREE_ENDPOINT` env var:
 
-1. Create a Postgres database on [Neon](https://neon.tech) and copy the connection string.
-2. Import this repo into Vercel.
-3. In Vercel project settings, add an env var: `DATABASE_URL` = your Neon connection string (for Production, Preview, and Development environments).
-4. Trigger a deploy. The build command (see `vercel.json`) runs:
-   - `prisma generate --schema=prisma/schema.production.prisma` — generates the Postgres client
-   - `prisma db push --schema=prisma/schema.production.prisma --skip-generate` — applies schema to Neon
-   - `next build`
+- **Local:** copy `.env.example` to `.env.local` and set the value.
+- **Production:** in GitHub repo → Settings → Secrets and variables → Actions → Variables tab, add `FORMSPREE_ENDPOINT` with your form URL (e.g. `https://formspree.io/f/abc12345`).
 
-## Schema changes
+## Deployment
 
-Update **both** `prisma/schema.prisma` (SQLite) and `prisma/schema.production.prisma` (Postgres) together. Local migrations live in `prisma/migrations/`; production uses `db push` so no migration files are needed for prod.
+Pushes to `main` trigger `.github/workflows/deploy.yml`, which builds a static export (`out/`) and publishes to GitHub Pages. Make sure Pages is enabled with source = "GitHub Actions" under repo Settings → Pages.
+
+`next.config.mjs` sets `basePath` / `assetPrefix` to `/OneFrame_website` in production so URLs resolve correctly under the project-page path. If you switch to a custom domain or user-page repo, drop those.

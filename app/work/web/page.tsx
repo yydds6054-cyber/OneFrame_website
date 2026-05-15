@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Nav from "@/components/Nav";
 import ScrollProgress from "@/components/ScrollProgress";
 import Footer from "@/components/Footer";
@@ -27,12 +28,12 @@ export default function WebProjectsPage() {
           className="pointer-events-none absolute top-20 right-0 h-[300px] w-[300px] bg-bloom-peach/55 blur-[100px] animate-blob"
         />
         <div className="relative mx-auto max-w-7xl">
-          <a
+          <Link
             href="/"
             className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-ink-600 hover:text-accent-violet transition-colors font-semibold"
           >
             ← Back to studio
-          </a>
+          </Link>
           <div className="mt-6 grid gap-8 md:grid-cols-12 items-end">
             <div className="md:col-span-7">
               <p className="text-xs uppercase tracking-[0.3em] text-accent-violet font-semibold">

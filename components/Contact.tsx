@@ -41,17 +41,26 @@ export default function Contact() {
 
     setSubmitting(true);
     try {
-      const res = await fetch("/api/contact", {
+      const endpoint =
+        process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT ??
+        "https://formspree.io/f/REPLACE_ME";
+      const res = await fetch(endpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          name: values.name,
+          email: values.email,
+          needs: values.needs.join(", "),
+          message: values.message,
+        }),
       });
-      const data = (await res.json().catch(() => ({}))) as {
-        ok?: boolean;
-        error?: string;
-      };
-      if (!res.ok || !data.ok) {
-        setServerError(data.error ?? "Something went wrong. Please try again.");
+      if (!res.ok) {
+        const data = (await res.json().catch(() => ({}))) as {
+          errors?: { message?: string }[];
+        };
+        setServerError(
+          data.errors?.[0]?.message ?? "Something went wrong. Please try again."
+        );
         return;
       }
       setSubmitted(true);
