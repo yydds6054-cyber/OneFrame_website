@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { asset } from "@/lib/paths";
 
 /**
  * OneFrame logo mark — the real company icon (1 + frame + dispersing pixels).
@@ -7,7 +8,7 @@ import Image from "next/image";
 export default function Logo({ className = "" }: { className?: string }) {
   return (
     <Image
-      src="/logo-mark.png"
+      src={asset("/logo-mark.png")}
       alt="OneFrame"
       width={120}
       height={120}
